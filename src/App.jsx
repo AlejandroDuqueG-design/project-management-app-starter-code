@@ -21,7 +21,6 @@ function App() {
       
       <Route path="/projects" element={<ProjectListPage />} />
       <Route path="/projects/:projectId" element={<ProjectDetailsPage />} />
-      
       <Route exact path="/projects/create" element={<CreateProjectPage />} />
       <Route path="/projects/edit/:projectId" element={ <EditProjectPage /> } />
 

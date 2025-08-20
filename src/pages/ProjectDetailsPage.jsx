@@ -53,12 +53,13 @@ function ProjectDetailsPage() {
       {/* <TaskCard /> */}
 
       {/* ... form for adding a new Task should be rendered here    */}
+      <AddTask projectId={project.id} getData={getData}/>
 
       <Link to="/projects">
         <button>Back to projects</button>
       </Link>
 
-      <Link to={`/projects/edit/PROJECT_ID_HERE`}>
+      <Link to={`/projects/edit/${project.id}`}>
         <button>Edit Project</button>
       </Link>
     </div>
