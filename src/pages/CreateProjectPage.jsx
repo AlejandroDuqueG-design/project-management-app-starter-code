@@ -1,12 +1,34 @@
+import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function CreateProjectPage() {
+
+  const navigate = useNavigate()
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // ...logic for creating a new Project should be here
+
+
+    // newProject will be the body of the request and shoul ALWAYS be an object
+    const newProject = {
+      title,
+      description
+    }
+
+    axios.post(`${import.meta.env.VITE_SERVER_URL}/projects`, newProject)
+    .then(()=> {
+      console.log("The project was created")
+      navigate("/projects")
+    })
+
+    .catch((error)=>{
+      console.log(error)
+    })
 
   };  
 

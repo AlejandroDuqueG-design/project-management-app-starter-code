@@ -1,18 +1,53 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import AddTask from "../components/AddTask"; // for rendering Task Add Form
 import TaskCard from "../components/TaskCard"; // for rendering Task List
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-function ProjectDetailsPage () {
-  
+function ProjectDetailsPage() {
+
+
+  const[project, setPorject]=useState(null)
+
+
+
+
+  const params = useParams();
+
+  useEffect(() => {
+
+    getData();
+
+  }, []);
+
+  const getData = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/projects/${params.projectId}?_embed=tasks`);
+      console.log(response)
+      setPorject(response.data)
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  if(project===null){
+    return(
+      <h3>Loading...</h3>
+    )
+  }
+
   return (
     <div className="ProjectDetailsPage">
-
       <div>
-        <h1>PROJECT_NAME</h1>
-        <p>PROJECT_DESCRIPTION</p>
+        <h1>{project.title}</h1>
+        <p>{project.description}</p>
       </div>
 
-      {/* ... list of all Tasks for this Project should be rendered here */}
+      {project.tasks.map((eachTask)=>{
+
+        return <TaskCard key={eachTask.id}{...eachTask}/>
+      })}
 
       {/* example of a single TaskCard being rendered */}
       {/* <TaskCard /> */}
@@ -22,11 +57,10 @@ function ProjectDetailsPage () {
       <Link to="/projects">
         <button>Back to projects</button>
       </Link>
-      
+
       <Link to={`/projects/edit/PROJECT_ID_HERE`}>
         <button>Edit Project</button>
-      </Link>      
-      
+      </Link>
     </div>
   );
 }
